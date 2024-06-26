@@ -17,3 +17,6 @@ build/
 # User-specific files (replace 'your_username' with your actual username)
 .vscode/
 .DS_Store
+
+# Development and testing files
+dev/
