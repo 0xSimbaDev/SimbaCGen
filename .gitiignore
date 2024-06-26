@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# PyCharm specific
+.idea/
+
+# User-specific files (replace 'your_username' with your actual username)
+.vscode/
+.DS_Store
