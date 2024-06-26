@@ -19,4 +19,4 @@ build/
 .DS_Store
 
 # Development and testing files
-dev/
+dev/     # Ignore the dev directory and its contents
