@@ -29,6 +29,7 @@ This Python project streamlines the process of generating C code from structured
 - parser.py           # Contains the code to parse the JSON input and construct the AST.
 - code_generator.py   # Generates C code from the AST.
 - main.py             # Main script to demonstrate the usage of the tool.
+```
 
 ## Requirements
 
