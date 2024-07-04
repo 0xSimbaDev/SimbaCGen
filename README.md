@@ -1,30 +1,133 @@
 # SimbaCGen: Simplify C Code Creation with JSON
 
-This Python project streamlines the process of generating C Code from structured JSON input.
+This Python project streamlines the process of generating C code from structured JSON input.
 
 ## Key Features
 
 - **No-Code/Low-Code Approach:** Design C functions without writing C code directly.
 - **JSON-Driven:** Describe the code structure in a clear, standardized format.
-- **Lexical Analysis and Parsing:**  Ensures correct JSON syntax and builds an internal representation for code generation.
+- **AST-Based Parsing:** Builds an internal representation for code generation.
 - **Flexible:** Easily extendable to support more complex C language features.
 
 ## How It Works
 
-1.  **Input:**  The script takes a JSON file (`function_declaration.json` by default) as input. The JSON should describe the structure of the C function, including:
+1. **Input:** The script takes a JSON string as input. The JSON should describe the structure of the C function, including:
+    - `type`: Specifies the type of the JSON object, e.g., "function_declaration".
+    - `name`: The name of the function.
+    - `return_type`: The data type returned by the function.
+    - `arguments`: An array of objects describing the function's parameters (each with `name` and `type`).
+    - `block`: An array of objects representing the statements within the function body (e.g., variable declarations, assignments, return statements).
 
-    *   `functionName`: The name of the function.
-    *   `returnType`: The data type returned by the function.
-    *   `arguments`: An array of objects describing the function's parameters (each with `name` and `type`).
-    *   `block`: An array of objects representing the statements within the function body (e.g., variable declarations, assignments, return statements).
+2. **Parsing:** The `parser.py` module processes the JSON input and constructs an Abstract Syntax Tree (AST). This AST represents the structure of the function in a way that the code generator can understand.
 
-2.  **Lexical Analysis:** The script uses a lexer built with PLY (`lex`) to tokenize the JSON input. This breaks down the JSON into a stream of tokens like `LBRACE`, `STRING`, `NUMBER`, `INT`, etc., making it easier for the parser to understand.
+3. **Code Generation:** The `code_generator.py` module traverses the AST and generates the corresponding C code. This process handles variable declarations, assignments, expressions, and other C language constructs.
 
-3.  **Parsing:** The parser, also built with PLY (`yacc`), analyzes the token stream based on a defined grammar. If the JSON structure is valid according to the grammar, the parser builds an Abstract Syntax Tree (AST) representing the function's structure.
+## Project Structure
 
-4.  **Code Generation:** The script then traverses the AST and generates the corresponding C code based on the information in each node. This process handles variable declarations, assignments, expressions, and other C language constructs.
+```plaintext
+- ast.py              # Defines the classes for the Abstract Syntax Tree (AST) nodes.
+- parser.py           # Contains the code to parse the JSON input and construct the AST.
+- code_generator.py   # Generates C code from the AST.
+- main.py             # Main script to demonstrate the usage of the tool.
 
 ## Requirements
 
 *   **Python:** (version 3.6 or later)
 *   **PLY:** Install using `pip install ply`
+
+## Example
+The following is a sample JSON input that describes a simple function in C:
+
+```
+{
+  "type": "function_declaration",
+  "name": "nested_example",
+  "return_type": "void",
+  "arguments": [],
+  "block": [
+    {
+      "type": "variable_declaration",
+      "declarations": [
+        {
+          "name": "x",
+          "type": "int",
+          "value": {
+            "type": "literal",
+            "value": "0"
+          }
+        }
+      ]
+    },
+    {
+      "type": "if_statement",
+      "condition": {
+        "type": "binary_operation",
+        "operator": "==",
+        "left": {
+          "type": "variable_reference",
+          "name": "x"
+        },
+        "right": {
+          "type": "literal",
+          "value": "0"
+        }
+      },
+      "then_block": [
+        {
+          "type": "if_statement",
+          "condition": {
+            "type": "binary_operation",
+            "operator": ">",
+            "left": {
+              "type": "variable_reference",
+              "name": "x"
+            },
+            "right": {
+              "type": "literal",
+              "value": "-1"
+            }
+          },
+          "then_block": [
+            {
+              "type": "expression_statement",
+              "expression": {
+                "type": "function_call",
+                "name": "printf",
+                "arguments": [
+                  {
+                    "type": "literal",
+                    "value": "\"Nested if statement\""
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+```
+
+Running main.py with this input will generate the following C code:
+
+```
+void nested_example() {
+    int x = 0;
+    if (x == 0) {
+        if (x > -1) {
+            printf("Nested if statement");
+        }
+    }
+}
+```
+
+## Contributing
+
+Contributions are welcome! Feel free to submit issues and enhancement requests. Pull requests are also welcome.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
