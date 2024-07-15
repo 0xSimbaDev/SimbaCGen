@@ -1,0 +1,45 @@
+{
+  "type": "function_declaration",
+  "name": "calculate_sum",
+  "return_type": "int",
+  "arguments": [
+      {
+          "name": "a",
+          "type": "int"
+      },
+      {
+          "name": "b",
+          "type": "int"
+      }
+  ],
+  "block": [
+      {
+          "type": "variable_declaration",
+          "declarations": [
+              {
+                  "name": "sum",
+                  "type": "int",
+                  "value": {
+                      "type": "binary_operation",
+                      "operator": "+",
+                      "left": {
+                          "type": "variable_reference",  
+                          "name": "a"
+                      },
+                      "right": {
+                          "type": "variable_reference",  
+                          "name": "b"
+                      }
+                  }
+              }
+          ]
+      },
+      {
+          "type": "return_statement",
+          "value": {
+              "type": "variable_reference", 
+              "name": "sum"
+          }
+      }
+  ]
+}
