@@ -42,73 +42,49 @@ The following is a sample JSON input that describes a simple function in C:
 ```
 {
   "type": "function_declaration",
-  "name": "nested_example",
-  "return_type": "void",
-  "arguments": [],
-  "block": [
-    {
-      "type": "variable_declaration",
-      "declarations": [
-        {
-          "name": "x",
-          "type": "int",
-          "value": {
-            "type": "literal",
-            "value": "0"
-          }
-        }
-      ]
-    },
-    {
-      "type": "if_statement",
-      "condition": {
-        "type": "binary_operation",
-        "operator": "==",
-        "left": {
-          "type": "variable_reference",
-          "name": "x"
-        },
-        "right": {
-          "type": "literal",
-          "value": "0"
-        }
+  "name": "calculate_sum",
+  "return_type": "int",
+  "arguments": [
+      {
+          "name": "a",
+          "type": "int"
       },
-      "then_block": [
-        {
-          "type": "if_statement",
-          "condition": {
-            "type": "binary_operation",
-            "operator": ">",
-            "left": {
-              "type": "variable_reference",
-              "name": "x"
-            },
-            "right": {
-              "type": "literal",
-              "value": "-1"
-            }
-          },
-          "then_block": [
-            {
-              "type": "expression_statement",
-              "expression": {
-                "type": "function_call",
-                "name": "printf",
-                "arguments": [
-                  {
-                    "type": "literal",
-                    "value": "\"Nested if statement\""
+      {
+          "name": "b",
+          "type": "int"
+      }
+  ],
+  "block": [
+      {
+          "type": "variable_declaration",
+          "declarations": [
+              {
+                  "name": "sum",
+                  "type": "int",
+                  "value": {
+                      "type": "binary_operation",
+                      "operator": "+",
+                      "left": {
+                          "type": "variable_reference",  
+                          "name": "a"
+                      },
+                      "right": {
+                          "type": "variable_reference",  
+                          "name": "b"
+                      }
                   }
-                ]
               }
-            }
           ]
-        }
-      ]
-    }
+      },
+      {
+          "type": "return_statement",
+          "value": {
+              "type": "variable_reference", 
+              "name": "sum"
+          }
+      }
   ]
 }
-
 ```
 
 Running main.py with this input will generate the following C code:
